@@ -1,0 +1,71 @@
+/* Isolated to the three new Figma record screens; shared Web chrome is unchanged. */
+.clinic-records{position:absolute;inset:0 auto auto 0;width:1120px;height:840px;background:#f8f8fc;color:#202235;line-height:normal}
+.clinic-records .web-page-heading h2{line-height:normal;color:#202235}
+.clinic-records .web-page-heading>p{position:absolute;left:24px;top:59px;margin:0;line-height:1.4;color:#73768a}
+.clinic-records .web-panel{padding:0;overflow:hidden}
+.clinic-records .web-panel h3{position:absolute;left:24px;top:16px;font-size:16px;line-height:normal}
+.clinic-records .clinic-search{position:absolute;left:0;top:108px;width:1120px;height:64px;border-radius:14px;background:#fff;font-size:14px}
+.clinic-records .clinic-search>span{position:absolute;left:24px;top:24px;color:#9a9cad;white-space:pre-wrap}
+.clinic-records .clinic-search>span+span{left:864px;color:#55586b}
+.clinic-records .clinic-health-patient{left:0;top:196px;width:340px;height:644px}
+.clinic-records .clinic-health-patient h3{top:28px;font-size:22px}
+.clinic-records .clinic-patient-id{position:absolute;left:24px;top:64px;font-size:12px;color:#73768a}
+.clinic-records .clinic-patient-risk{position:absolute;left:24px;top:94px;font-size:14px;color:#7878d3}
+.clinic-records .clinic-health-patient dl{position:absolute;left:24px;top:152px;margin:0;display:flex;flex-direction:column;gap:32px}
+.clinic-records .clinic-health-patient dt{height:16px;font-size:12px;color:#73768a}
+.clinic-records .clinic-health-patient dd{margin:8px 0 0;font-size:20px;font-weight:700;height:29px}
+.clinic-records .clinic-health-patient dl>div:nth-child(2) dd{color:#7878d3}
+.clinic-records .clinic-health-risk{left:364px;top:196px;width:756px;height:150px;background:#f2f2fb}
+.clinic-records .clinic-health-risk h3{top:24px;color:#7878d3}
+.clinic-records .clinic-health-risk>p{position:absolute;left:24px;top:52px;width:676px;font-size:14px;line-height:1.4;color:#6c4a49}
+.clinic-records .clinic-task-button{position:absolute;left:556px;top:92px;width:180px;height:40px;border:1px solid #a954d7;border-radius:10px;background:#f4eafb;color:#a954d7;display:grid;place-items:center;font-weight:700;font-size:14px}
+.clinic-records .clinic-health-trends{left:364px;top:368px;width:756px;height:250px}
+.clinic-records .clinic-health-trends>img{position:absolute;left:36px;top:56px;width:680px;height:130px;display:block}
+.clinic-records .clinic-trend-months span{position:absolute;top:204px;color:#8a8c9c;font-size:12px}
+.clinic-records .clinic-health-timeline{left:364px;top:644px;width:756px;height:196px}
+.clinic-records .clinic-health-timeline>p{position:absolute;left:28px;top:60px;font-size:12px;color:#7878d3;font-weight:700}
+.clinic-records .clinic-health-timeline>p+p{top:88px;color:#55586b;font-weight:400}
+.clinic-records .clinic-health-timeline>p+p+p{top:116px}
+.clinic-records.clinic-medical .clinic-search>span+span{left:817px;font-size:12px}
+.clinic-records .clinic-medical-table{left:0;top:196px;width:760px;height:644px}
+.clinic-records .clinic-medical-columns{position:absolute;left:28px;top:20px;width:704px;height:20px;font-size:14px;font-weight:700;color:#2e3848}
+.clinic-records .clinic-medical-columns>span,.clinic-records .clinic-medical-row>span{position:absolute;left:0;white-space:nowrap}
+.clinic-records .clinic-medical-columns>span:nth-child(2),.clinic-records .clinic-medical-row>span:nth-child(2){left:88px}
+.clinic-records .clinic-medical-columns>span:nth-child(3),.clinic-records .clinic-medical-row>span:nth-child(3){left:228px}
+.clinic-records .clinic-medical-columns>span:nth-child(4),.clinic-records .clinic-medical-row>span:nth-child(4){left:472px}
+.clinic-records .clinic-medical-columns>span:nth-child(5),.clinic-records .clinic-medical-row>span:nth-child(5){left:628px}
+.clinic-records .clinic-medical-row{position:absolute;left:16px;width:728px;height:66px;border-radius:10px;background:#fcfcfe;color:#313c4d;font-size:12px;font-weight:500}
+.clinic-records .clinic-medical-row>span{top:0;height:66px;display:flex;align-items:center;margin-left:12px}
+.clinic-records .clinic-medical-selected{background:#f2f2fb}
+.clinic-records .clinic-medical-detail{left:784px;top:196px;width:334px;height:644px}
+.clinic-records .clinic-medical-detail h3{top:20px;font-size:18px}
+.clinic-records .clinic-medical-person{position:absolute;left:24px;top:80px;font-size:12px;display:flex;flex-direction:column;gap:8px}
+.clinic-records .clinic-medical-person>b{font-size:14px;line-height:20px}
+.clinic-records .clinic-medical-person>p{line-height:16px}
+.clinic-records .clinic-medical-person>p:first-of-type{color:#73768a}
+.clinic-records .clinic-medical-treatment{position:absolute;left:24px;top:180px;font-size:12px;line-height:16px}
+.clinic-records .clinic-medical-treatment>p{margin-top:12px}
+.clinic-records .clinic-medical-treatment>p:first-of-type{margin-top:16px}
+.clinic-records .clinic-approve{position:absolute;left:24px;top:496px;width:290px;height:44px;border-radius:11px;display:grid;place-items:center;font-size:14px}
+.clinic-records .clinic-updated{position:absolute;left:24px;top:560px;font-size:12px;line-height:1.4;color:#8a8c9c}
+.clinic-records .clinic-information-patient{left:0;top:108px;width:1120px;height:96px}
+.clinic-records .clinic-information-patient h3{top:24px;font-size:20px}
+.clinic-records .clinic-information-patient>p{position:absolute;left:24px;top:60px;font-size:12px;line-height:1.4;color:#73768a}
+.clinic-records .clinic-information-patient>b{position:absolute;left:936px;top:40px;font-size:12px;color:#7878d3}
+.clinic-records .clinic-information-tabs{position:absolute;left:0;top:224px;width:1120px;height:54px;border-radius:14px;background:#fff;padding:20px 24px;font-size:14px;font-weight:700;color:#7878d3;white-space:pre-wrap}
+.clinic-records .clinic-information-summary{left:0;top:304px;width:720px;height:536px}
+.clinic-records .clinic-information-summary h3,.clinic-records .clinic-information-actions h3{font-size:18px}
+.clinic-records .clinic-information-summary dl{margin:0}
+.clinic-records .clinic-information-summary dt{position:absolute;left:24px;width:104px;height:56px;display:flex;align-items:center;font-size:14px;font-weight:700;color:#2e3848}
+.clinic-records .clinic-information-summary dd{position:absolute;left:108px;margin:0;width:590px;height:56px;display:flex;align-items:center;padding:0 16px;border-radius:8px;background:#fafafc;font-size:14px}
+.clinic-records .clinic-information-summary dl>div:nth-child(3) dd{font-weight:700}
+.clinic-records .clinic-information-actions{left:744px;top:304px;width:376px;height:536px}
+.clinic-records .clinic-action-list{position:absolute;left:20px;top:60px;display:flex;flex-direction:column;gap:12px}
+.clinic-records .clinic-action{position:relative;width:332px;height:56px;border:1px solid #e2e4ea;border-radius:12px;background:#fafafc;font-size:14px;color:#2e3848;font-weight:500}
+.clinic-records .clinic-action>span{position:absolute;left:59px;top:0;height:54px;display:flex;align-items:center;white-space:nowrap}
+.clinic-records .clinic-action img{position:absolute;display:block}
+.clinic-records .clinic-action-background{left:15px;top:11px;width:32px;height:32px}
+.clinic-records .clinic-action-icon{left:21px;top:17px;width:20px;height:20px}
+.clinic-records .clinic-action-chevron{left:299px;top:19px;width:16px;height:16px}
+.clinic-records .clinic-save{position:absolute;left:20px;top:455px;width:332px;height:48px;display:grid;place-items:center;border-radius:12px;font-size:14px;z-index:1}
+.clinic-records .clinic-information-actions>p{position:absolute;left:24px;top:488px;font-size:12px;color:#8a8c9c}

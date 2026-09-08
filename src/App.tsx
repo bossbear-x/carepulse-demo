@@ -31,15 +31,6 @@ type VisitRecord = {
 }
 type CareOverlay = null | 'checkin-start' | 'checkin-end' | 'checkin-success' | 'patient-qr'
 type SelectedLanguage = 'ja' | 'en' | 'zh-CN' | 'zh-TW' | 'ko' | 'vi'
-type FirstVisitData = {
-  name: string
-  furigana: string
-  gender: '' | '男性' | '女性' | '回答しない'
-  birthDate: string
-  phone: string
-  postalCode: string
-  address: string
-}
 
 const languageOptions: ReadonlyArray<{ code: SelectedLanguage; label: string }> = [
   { code: 'ja', label: '日本語' },
@@ -75,8 +66,7 @@ const assets = {
   setup: '/assets/setup-illustration.png', nfc: '/assets/nfc-illustration.png',
   patient: '/assets/patient-avatar.png', family: '/assets/family-avatar.png',
 }
-const demoProfile = { name: 'ZHOU XIAO', furigana: 'シュウ ショウ', card: '15538', birth: '1989年 05月 20日' }
-const emptyFirstVisit: FirstVisitData = { name: '', furigana: '', gender: '', birthDate: '', phone: '', postalCode: '', address: '' }
+const demoProfile = { name: 'ZHOU XIAO', card: '15538', birth: '1989年 05月 20日' }
 const visits: VisitRecord[] = [
   { date:'2026年5月12日（月）', content:'定期検診・歯石除去', detailContent:'定期検診・歯石除去、仮の詰め物の状態を確認', doctor:'鈴木 医師', payment:'¥3,420 (保険3割)', category:'歯科・再診', explanation:'次回の治療まで、硬いものや粘着性のある食べ物を避けてください。痛みが出た場合はすぐにクリニックに連絡してください。', precautions:'・硬いものを噛まない\n・ガムなど粘着性のあるものを避ける\n・痛みが出たら連絡する' },
   { date:'2026年3月14日（土）', content:'虫歯治療（左上奥歯・コンポジットレジン充填）', doctor:'鈴木 医師', payment:'¥2,180 (保険3割)', category:'虫歯治療' },
@@ -154,7 +144,6 @@ function App() {
   const [familyRemoved, setFamilyRemoved] = useState(() => read('carepulse.familyRemoved', false))
   const [dateOpen, setDateOpen] = useState(false)
   const [birthDate, setBirthDate] = useState('1989年 05月 20日')
-  const [firstVisitData, setFirstVisitData] = useState<FirstVisitData>(emptyFirstVisit)
   const [careOverlay, setCareOverlay] = useState<CareOverlay>(null)
   const [selectedVisit, setSelectedVisit] = useState<VisitRecord>(visits[0])
   const appointment = appointmentsByPersona[patientType]
@@ -224,7 +213,7 @@ function App() {
       case 'setup': return <Setup back={back} first={() => go('first-form')} nfc={() => go('nfc')}/>
       case 'nfc': return <Nfc back={back}/>
       case 'nfc-success': return <NfcSuccess next={() => { setProfile(demoProfile); localStorage.setItem('carepulse.profile', JSON.stringify(demoProfile)); enterNewPatientHome() }}/>
-      case 'first-form': return <PatientForm mode="new" birthDate={firstVisitData.birthDate} openDate={() => setDateOpen(true)} back={back} switchMode={() => go('return-form')} submit={(name) => { const next = { ...profile, name: name || demoProfile.name, furigana: firstVisitData.furigana || demoProfile.furigana, birth: firstVisitData.birthDate }; setProfile(next); localStorage.setItem('carepulse.profile', JSON.stringify(next)); enterNewPatientHome() }} firstVisitData={firstVisitData} setFirstVisitData={setFirstVisitData}/>
+      case 'first-form': return <PatientForm mode="new" birthDate={birthDate} openDate={() => setDateOpen(true)} back={back} switchMode={() => go('return-form')} submit={(name) => { const next = { ...profile, name: name || demoProfile.name }; setProfile(next); localStorage.setItem('carepulse.profile', JSON.stringify(next)); enterNewPatientHome() }}/>
       case 'return-form': return <PatientForm mode="returning" birthDate={birthDate} openDate={() => setDateOpen(true)} back={back} switchMode={() => go('first-form')} submit={(_,card) => { const next = { ...profile, name: demoProfile.name, card: card || demoProfile.card }; setProfile(next); localStorage.setItem('carepulse.profile', JSON.stringify(next)); resetReturningScenario(); setTypeAndHome('returning') }}/>
       case 'home': return <Home type={patientType} profile={profile} appointment={appointment} startBooking={startBooking} go={go} checkIn={() => setCareOverlay('checkin-start')} showQr={() => setCareOverlay('patient-qr')}/>
       case 'booking-date': return <BookingDate draft={bookingDraft} type={patientType} rescheduling={rescheduling} setDraft={setBookingDraft} back={back} next={() => go('booking-review')}/>
@@ -245,11 +234,7 @@ function App() {
   })()
 
   return <main className="device-shell">{main}
-    {dateOpen && <DatePicker
-      value={birthDate}
-      cancel={() => setDateOpen(false)}
-      done={(date) => { setBirthDate(date); if (screen === 'first-form') setFirstVisitData(current => ({ ...current, birthDate: date })); setDateOpen(false) }}
-    />}
+    {dateOpen && <DatePicker value={birthDate} cancel={() => setDateOpen(false)} done={(date) => { setBirthDate(date); setDateOpen(false) }}/>} 
     {languageOpen && <LanguageModal value={selectedLanguage} choose={(value) => { setSelectedLanguage(value); localStorage.setItem('carepulse.language', value); setLanguageOpen(false) }} cancel={() => setLanguageOpen(false)}/>} 
     {familyOpen && <ActionSheet cancel={() => setFamilyOpen(false)} remove={() => { setFamilyRemoved(true); localStorage.setItem('carepulse.familyRemoved', 'true'); setFamilyOpen(false) }}/>} 
     {careOverlay && <CarePulseOverlay kind={careOverlay} close={() => setCareOverlay(null)}/>} 
@@ -276,60 +261,34 @@ function NfcSuccess({ next }: { next: () => void }) {
   return <section className="screen success-screen nfc-success-screen"><StatusBar/><div className="success-center"><SuccessIcon large/><h2>認証が完了しました</h2><p>ご入力の手間が省かれました。</p></div><div className="fixed-action"><PrimaryButton onClick={next}>確認する</PrimaryButton></div><div className="home-indicator"/></section>
 }
 
-function PatientForm({ mode, birthDate, openDate, back, switchMode, submit, firstVisitData, setFirstVisitData }: { mode: PatientType; birthDate: string; openDate: () => void; back: () => void; switchMode: () => void; submit: (name: string, card: string) => void; firstVisitData?: FirstVisitData; setFirstVisitData?: (data: FirstVisitData) => void }) {
+function PatientForm({ mode, birthDate, openDate, back, switchMode, submit }: { mode: PatientType; birthDate: string; openDate: () => void; back: () => void; switchMode: () => void; submit: (name: string, card: string) => void }) {
+  const [name, setName] = useState('')
   const [card, setCard] = useState('')
-  const data = firstVisitData ?? emptyFirstVisit
-  const dataRef = useRef(data)
-  const manuallyEdited = useRef(new Set<keyof FirstVisitData>())
-  useEffect(() => { dataRef.current = data }, [data])
-  useEffect(() => {
-    if (mode !== 'new' || !setFirstVisitData) return
-    const steps: Array<[keyof FirstVisitData, FirstVisitData[keyof FirstVisitData]]> = [
-      ['name', 'ZHOU XIAO'],
-      ['furigana', 'シュウ ショウ'],
-      ['gender', '女性'],
-      ['birthDate', '1989年05月20日'],
-      ['phone', '09012345678'],
-      ['postalCode', '1660004'],
-      ['address', '東京都杉並区阿佐谷南'],
-    ]
-    const timers = steps.map(([key, value], index) => window.setTimeout(() => {
-      if (manuallyEdited.current.has(key) || dataRef.current[key]) return
-      const next = { ...dataRef.current, [key]: value } as FirstVisitData
-      dataRef.current = next
-      setFirstVisitData(next)
-    }, 500 + index * 400))
-    return () => timers.forEach(window.clearTimeout)
-  }, [mode, setFirstVisitData])
-  const markManual = (key: keyof FirstVisitData) => manuallyEdited.current.add(key)
-  const updateFirstVisit = (next: Partial<FirstVisitData>) => {
-    const updated = { ...dataRef.current, ...next }
-    dataRef.current = updated
-    setFirstVisitData?.(updated)
-  }
   const formId = mode === 'new' ? 'first-patient-form' : 'returning-patient-form'
-  const onSubmit = (e: FormEvent) => { e.preventDefault(); submit(data.name,card) }
+  const onSubmit = (e: FormEvent) => { e.preventDefault(); submit(name,card) }
   return <section className={`screen patient-entry ${mode === 'new' ? 'first-patient' : 'returning-patient'}`}>
     <StatusBar/>
-    <Header title="" onBack={back} right={<button className="text-button" onClick={() => submit(data.name,card)}>スキップ</button>}/>
-    {mode === 'returning' && <div className="segmented wide">
-      <button onClick={switchMode}>当院が初めての方</button>
-      <button className="active">診察券をお持ちの方</button>
-    </div>}
+    <Header title="" onBack={back} right={<button className="text-button" onClick={() => submit(name,card)}>スキップ</button>}/>
+    <div className="segmented wide">
+      <button className={mode === 'new' ? 'active' : ''} onClick={() => mode !== 'new' && switchMode()}>当院が初めての方</button>
+      <button className={mode === 'returning' ? 'active' : ''} onClick={() => mode !== 'returning' && switchMode()}>診察券をお持ちの方</button>
+    </div>
     <form id={formId} className="patient-form" onSubmit={onSubmit}>
       {mode === 'new' ? <>
         <div className="form-intro"><h2>初診情報の入力</h2><p>院内でのカルテ作成のため、以下の情報をご入力ください。</p></div>
         <div className="input-fields-group">
-          <Field label="お名前"><input value={data.name} onFocus={() => markManual('name')} onChange={e => updateFirstVisit({ name: e.target.value })} placeholder="例：山田 太郎"/></Field>
-          <Field label="フリガナ"><input value={data.furigana} onFocus={() => markManual('furigana')} onChange={e => updateFirstVisit({ furigana: e.target.value })} placeholder="例：ヤマダ タロウ"/></Field>
+          <Field label="お名前"><input value={name} onChange={e => setName(e.target.value)} placeholder="例：山田 太郎"/></Field>
+          <Field label="お名前"><input placeholder="例：ヤマダ タロウ"/></Field>
           <Field label="性別"><div className="radio-row">
-            {(['男性', '女性', '回答しない'] as const).map(gender => <label key={gender}><input type="radio" name="gender" checked={data.gender === gender} onChange={() => { markManual('gender'); updateFirstVisit({ gender }) }}/><span className="radio-mark"/>{gender}</label>)}
+            <label><input type="radio" name="gender"/><span className="radio-mark"/>男性</label>
+            <label><input type="radio" name="gender"/><span className="radio-mark"/>女性</label>
+            <label><input type="radio" name="gender"/><span className="radio-mark"/>回答しない</label>
           </div></Field>
-          <Field label="生年月日"><button type="button" className="field-button" onClick={() => { markManual('birthDate'); openDate() }}><span>{birthDate || '生年月日を選択'}</span><img src="/assets/chevron-down.svg"/></button></Field>
-          <Field label="電話番号"><input inputMode="tel" value={data.phone} onFocus={() => markManual('phone')} onChange={e => updateFirstVisit({ phone: e.target.value })} placeholder="例：09012345678"/></Field>
-          <Field label="郵便番号"><input value={data.postalCode} onFocus={() => markManual('postalCode')} onChange={e => updateFirstVisit({ postalCode: e.target.value })} placeholder="例：1660004"/></Field>
-          <button type="button" className="address-button" onClick={() => { markManual('postalCode'); markManual('address'); updateFirstVisit({ postalCode: dataRef.current.postalCode.trim() || '1660004', address: '東京都杉並区阿佐谷南' }) }}>住所検索</button>
-          <Field label="住所"><input value={data.address} onFocus={() => markManual('address')} onChange={e => updateFirstVisit({ address: e.target.value })}/></Field>
+          <Field label="生年月日"><button type="button" className="field-button" onClick={openDate}><span>{birthDate}</span><img src="/assets/chevron-down.svg"/></button></Field>
+          <Field label="携帯電話"><input inputMode="tel" placeholder="例：09012345678"/></Field>
+          <Field label="郵便番号"><input placeholder="例：1660004"/></Field>
+          <button type="button" className="address-button">住所検索</button>
+          <Field label="住所"><input defaultValue="東京都杉並区阿佐谷南"/></Field>
         </div>
       </> : <>
         <div className="form-intro title-only"><h2>診察券番号</h2></div>

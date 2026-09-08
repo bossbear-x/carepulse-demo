@@ -28,7 +28,6 @@ body{min-height:100dvh;display:grid;place-items:center;padding:0;background:#eef
 .patient-entry .segmented button.active,.records-screen .segmented button.active{flex:1 1 auto;padding:0 24px;font-size:16px;line-height:24px}
 .patient-entry .patient-form{position:absolute;top:197px;left:0;width:100%;height:480px;margin:0;padding:24px 0 240px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;display:flex;flex-direction:column;gap:16px}
 .patient-entry .patient-form::-webkit-scrollbar{display:none}
-.first-patient .patient-form{top:109px;height:568px}
 .returning-patient .patient-form{height:312px;padding-bottom:24px}
 .form-intro{width:100%;display:flex;flex-direction:column;gap:8px;margin:0;padding:8px 24px}
 .form-intro h2{margin:0;font-size:24px;line-height:34px;font-weight:700}
@@ -38,7 +37,6 @@ body{min-height:100dvh;display:grid;place-items:center;padding:0;background:#eef
 .patient-entry .field>b{display:flex;align-items:center;gap:8px;margin:0;font-size:18px;line-height:27px;font-weight:700}
 .patient-entry .field em{flex:0 0 auto;padding:2px 6px;border-radius:12px;color:#c83e4b;background:#ffedef;font-size:12px;line-height:17px;font-weight:400}
 .patient-entry .field input,.patient-entry .field-button,.patient-entry .radio-row{width:100%;height:48px;min-height:48px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);font-size:14px;line-height:21px}
-.first-patient .field input,.first-patient .field-button,.first-patient .radio-row{color:#2e3848}
 .patient-entry .field input{padding:0 16px}
 .patient-entry .field input::placeholder{color:#58677d;opacity:1}
 .input-with-icon{position:relative;width:100%;height:48px}

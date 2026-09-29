@@ -1,15 +1,41 @@
-/* Presentation layout only. App and Web internals stay at their native sizes. */
-html:has(.demo-shell),body:has(.demo-shell){height:auto;min-height:100%;overflow:auto}
-body:has(.demo-shell){display:block;padding:0}
-#root:has(.demo-shell){display:block;height:auto;min-height:100dvh;padding:32px 24px;overflow:visible}
-.demo-shell{display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);column-gap:0;align-items:start;width:100%;margin:0;position:relative}
-.demo-divider{grid-column:2;grid-row:1;align-self:stretch;width:1px;min-height:calc(100dvh - 64px);background:#d9dce7}
+/* Showcase-level layout only; App and Web internals retain their original geometry. */
+html:has(.demo-shell){height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto}
+body:has(.demo-shell){display:block;height:auto;min-height:100%;overflow:visible;padding:0}
+#root:has(.demo-shell){display:block;min-height:100dvh;padding:clamp(64px,5vw,96px);overflow:visible}
+
+.demo-shell{
+  --app-visual-width:317.58px;
+  --product-gap:52px;
+  display:grid;
+  grid-template-columns:var(--app-visual-width) 1px minmax(0,1fr);
+  column-gap:var(--product-gap);
+  align-items:start;
+  width:min(100%,2007px);
+  margin:0 auto;
+  position:relative;
+}
+.demo-patient,.demo-clinic{min-width:0;align-self:start}
+.demo-patient{grid-column:1;grid-row:1}
 .demo-label{height:48px;display:flex;gap:12px;align-items:flex-start;color:#73768a;font-size:11px;letter-spacing:1.2px}
 .demo-label b{color:#3d4b60;font-size:12px;letter-spacing:0}
-.demo-patient{grid-column:1;grid-row:1;position:relative;width:100%;height:calc(88dvh + 42.24px);min-width:0;justify-self:stretch}
-.demo-patient-content{position:absolute;top:0;left:50%;width:402px;transform:translateX(-50%) scale(.88);transform-origin:top center}
-.demo-clinic{grid-column:3;grid-row:1;position:relative;width:100%;min-width:0;justify-self:stretch;overflow:visible}
-.demo-clinic-content{width:100%;transform:scale(.88);transform-origin:top center}
-.demo-web-viewport{width:100%;position:relative;overflow:hidden;border-radius:22px;box-shadow:0 16px 48px #20263712}
-.demo-web-canvas{position:absolute;top:0;left:0;width:1440px;height:1024px;transform-origin:top left}
-@media(max-width:699px){#root:has(.demo-shell){padding:0}.demo-shell{column-gap:24px;grid-template-columns:min(402px,100vw) 744px;width:max-content}.demo-divider{display:none}.demo-patient{grid-column:1;width:min(402px,100vw);height:auto;zoom:.85}.demo-patient-content{position:static;width:auto;transform:none}.demo-label{padding:12px;height:44px}.demo-clinic{grid-column:2;width:744px;height:auto!important;padding-left:24px;border-left:1px solid #d9dce7}.demo-clinic-content{width:100%;transform:none}}
+
+.demo-app-scale-box{position:relative;width:var(--app-visual-width);overflow:visible}
+.demo-app-canvas{position:absolute;top:0;left:50%;width:402px;transform:translateX(-50%) scale(var(--app-scale));transform-origin:top center}
+
+.demo-divider{grid-column:2;grid-row:1;align-self:start;width:1px;margin-top:48px;background:#d9dce7}
+.demo-clinic{grid-column:3;grid-row:1;overflow:visible}
+.demo-web-scale-box{position:relative;max-width:100%;overflow:visible}
+.demo-web-viewport{position:absolute;top:0;left:0;width:1440px;height:1024px;overflow:hidden;border-radius:22px;box-shadow:0 16px 48px #20263712;transform-origin:top left}
+.demo-web-canvas{position:absolute;top:0;left:0;width:1440px;height:1024px}
+
+@media(max-width:699px){
+  #root:has(.demo-shell){padding:0}
+  .demo-shell{display:flex;gap:24px;width:max-content;max-width:none;margin:0;--product-gap:24px}
+  .demo-patient{flex:0 0 min(402px,100vw);width:min(402px,100vw);zoom:.85}
+  .demo-label{padding:12px;height:44px}
+  .demo-app-scale-box{width:402px;height:auto!important}
+  .demo-app-canvas{position:static;transform:none}
+  .demo-divider{display:none}
+  .demo-clinic{flex:0 0 744px;width:744px;padding-left:24px;border-left:1px solid #d9dce7}
+  .demo-web-scale-box{max-width:none}
+}

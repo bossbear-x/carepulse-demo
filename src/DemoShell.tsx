@@ -13,13 +13,18 @@ export default function DemoShell() {
   }, [])
   return <div className="demo-shell">
     <section className="demo-patient" aria-label="Patient App demo">
-      <div className="demo-label"><span>01 / PATIENT APP</span><b>患者アプリ</b></div>
-      <App />
+      <div className="demo-patient-content">
+        <div className="demo-label"><span>01 / PATIENT APP</span><b>患者アプリ</b></div>
+        <App />
+      </div>
     </section>
-    <section className="demo-clinic" aria-label="Clinic Web demo">
-      <div className="demo-label"><span>02 / CLINIC WEB</span><b>クリニック管理</b></div>
-      <div ref={viewport} className="demo-web-viewport" style={{ height: 1024 * scale }}>
-        <div className="demo-web-canvas" style={{ transform: `scale(${scale})` }}><WebDemo /></div>
+    <div className="demo-divider" aria-hidden="true" />
+    <section className="demo-clinic" aria-label="Clinic Web demo" style={{ height: .88 * (48 + 1024 * scale) }}>
+      <div className="demo-clinic-content">
+        <div className="demo-label"><span>02 / CLINIC WEB</span><b>クリニック管理</b></div>
+        <div ref={viewport} className="demo-web-viewport" style={{ height: 1024 * scale }}>
+          <div className="demo-web-canvas" style={{ transform: `scale(${scale})` }}><WebDemo /></div>
+        </div>
       </div>
     </section>
   </div>

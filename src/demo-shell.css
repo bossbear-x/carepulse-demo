@@ -1,12 +1,15 @@
-/* Parent layout only. Patient implementation and its styles are unchanged. */
+/* Presentation layout only. App and Web internals stay at their native sizes. */
 html:has(.demo-shell),body:has(.demo-shell){height:auto;min-height:100%;overflow:auto}
 body:has(.demo-shell){display:block;padding:0}
 #root:has(.demo-shell){display:block;height:auto;min-height:100dvh;padding:32px 24px;overflow:visible}
-.demo-shell{display:grid;grid-template-columns:402px minmax(720px,1440px);gap:40px;align-items:start;max-width:1922px;margin:0 auto}
+.demo-shell{display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);column-gap:0;align-items:start;width:100%;margin:0;position:relative}
+.demo-divider{grid-column:2;grid-row:1;align-self:stretch;width:1px;min-height:calc(100dvh - 64px);background:#d9dce7}
 .demo-label{height:48px;display:flex;gap:12px;align-items:flex-start;color:#73768a;font-size:11px;letter-spacing:1.2px}
 .demo-label b{color:#3d4b60;font-size:12px;letter-spacing:0}
-.demo-patient{width:402px;zoom:.85}
-.demo-clinic{min-width:0;padding-left:24px;border-left:1px solid #d9dce7}
-.demo-web-viewport{width:100%;max-width:1440px;position:relative;overflow:hidden;border-radius:22px;box-shadow:0 16px 48px #20263712}
+.demo-patient{grid-column:1;grid-row:1;position:relative;width:100%;height:calc(88dvh + 42.24px);min-width:0;justify-self:stretch}
+.demo-patient-content{position:absolute;top:0;left:50%;width:402px;transform:translateX(-50%) scale(.88);transform-origin:top center}
+.demo-clinic{grid-column:3;grid-row:1;position:relative;width:100%;min-width:0;justify-self:stretch;overflow:visible}
+.demo-clinic-content{width:100%;transform:scale(.88);transform-origin:top center}
+.demo-web-viewport{width:100%;position:relative;overflow:hidden;border-radius:22px;box-shadow:0 16px 48px #20263712}
 .demo-web-canvas{position:absolute;top:0;left:0;width:1440px;height:1024px;transform-origin:top left}
-@media(max-width:699px){#root:has(.demo-shell){padding:0}.demo-shell{gap:24px;grid-template-columns:min(402px,100vw) 744px}.demo-patient{width:min(402px,100vw)}.demo-label{padding:12px;height:44px}}
+@media(max-width:699px){#root:has(.demo-shell){padding:0}.demo-shell{column-gap:24px;grid-template-columns:min(402px,100vw) 744px;width:max-content}.demo-divider{display:none}.demo-patient{grid-column:1;width:min(402px,100vw);height:auto;zoom:.85}.demo-patient-content{position:static;width:auto;transform:none}.demo-label{padding:12px;height:44px}.demo-clinic{grid-column:2;width:744px;height:auto!important;padding-left:24px;border-left:1px solid #d9dce7}.demo-clinic-content{width:100%;transform:none}}
